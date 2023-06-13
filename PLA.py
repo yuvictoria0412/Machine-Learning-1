@@ -6,26 +6,17 @@ from unittest import result
 import numpy as np
 import time
 import random
+import io
+import requests
 
-train_data = np.loadtxt("hw1_15_train.dat.txt", dtype = float)
+# training data
+traindata_url = "https://www.csie.ntu.edu.tw/~htlin/mooc/datasets/mlfound_math/hw1_15_train.dat" #input("please enter file url: ")
+train_data = requests.get(traindata_url)
+train_data.raise_for_status() # check http status
+train_data = np.loadtxt(io.BytesIO(train_data.content), encoding = 'bytes')
+# train_data = np.loadtxt("hw1_15_train.dat.txt", dtype = float)
 # print(train_data)
 
-def find_mistake(w, data):
-    # Standard PLA
-    result = None
-
-    for x in data:
-        y = int(x[4])
-        x = np.append([1], x[0:4])
-
-        if int(np.sign(w.dot(x))) == 0 and y != -1:
-            result = np.array(x[0:5]), y
-            break
-        if int(np.sign(w.dot(x))) != y:
-            result = np.array(x[0:5]), y
-            break
-        
-    return result
 
 def PLA(data, coeff):
     # Perceptron Learning Algorithm
@@ -33,15 +24,25 @@ def PLA(data, coeff):
     w = np.zeros(5)
     
     while True:
-        res = find_mistake(w, train_data)
-        if res is not None:
-            x, y = res
-            w += coeff * y * x
-            count += 1
-        else:
+        correct = 0
+
+        for x in data:
+            y = int(x[4])
+            x = np.append([1], x[0:4])
+
+            if int(np.sign(w.dot(x))) == 0:
+                if y != -1:
+                    w += coeff * y * x
+                    count += 1
+            elif int(np.sign(w.dot(x))) != y:
+                w += coeff * y * x
+                count += 1
+            else:
+                correct += 1
+
+        if correct == len(data):
             break
 
-    # return w  ## w is g (weight)
     return count
 
 
@@ -63,18 +64,20 @@ start = time.time()
 print(PLA(train_data, 1))
 end = time.time()
 print("Q15 execute time = ", end - start)
+# ans: 45
 
 ## Q16 ##
 
-start = time.process_time()
-print(PLA_fixed(train_data, 2000, 1))
-end = time.process_time()
-print("Q16 execute time = ", end - start)
-
+# start = time.process_time()
+# print(PLA_fixed(train_data, 2000, 1))
+# end = time.process_time()
+# print("Q16 execute time = ", end - start)
+# ans: 39.8395
 
 ## Q17 ##
 
-start = time.time()
-print(PLA_fixed(train_data, 2000, 0.5))
-end = time.time()
-print("Q17 execute time = ", end - start) 
+# start = time.time()
+# print(PLA_fixed(train_data, 2000, 0.5))
+# end = time.time()
+# print("Q17 execute time = ", end - start)
+# ans: 40.0515
