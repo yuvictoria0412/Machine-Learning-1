@@ -32,10 +32,10 @@ def PLA(data, coeff):
 
             if int(np.sign(w.dot(x))) == 0:
                 if y != -1:
-                    w += coeff * y * x
+                    w = w + coeff * y * x
                     count += 1
             elif int(np.sign(w.dot(x))) != y:
-                w += coeff * y * x
+                w = w + coeff * y * x
                 count += 1
             else:
                 correct += 1
@@ -68,16 +68,17 @@ print("Q15 execute time = ", end - start)
 
 ## Q16 ##
 
-# start = time.process_time()
-# print(PLA_fixed(train_data, 2000, 1))
-# end = time.process_time()
-# print("Q16 execute time = ", end - start)
-# ans: 39.8395
+start = time.process_time()
+print(PLA_fixed(train_data, 2000, 1))
+end = time.process_time()
+print("Q16 execute time = ", end - start)
+# ans: 39.8395, 40.4425
+
 
 ## Q17 ##
 
-# start = time.time()
-# print(PLA_fixed(train_data, 2000, 0.5))
-# end = time.time()
-# print("Q17 execute time = ", end - start)
-# ans: 40.0515
+start = time.time()
+print(PLA_fixed(train_data, 2000, 0.5))
+end = time.time()
+print("Q17 execute time = ", end - start)
+# ans: 40.0515, 39.999
