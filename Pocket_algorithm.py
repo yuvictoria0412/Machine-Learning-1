@@ -35,7 +35,7 @@ def error(w, data):
                 error_count += 1
         elif int(np.sign(w.dot(x))) != y:
             error_count += 1
-    return error_count/data.size
+    return error_count
 
 def pocket_algor(n, data, coeff):
 
@@ -75,7 +75,8 @@ def PLA(n, data, coeff):
         for x in data:
             y = int(x[4])
             x = np.append([1], x[0:4])
-
+            # print(type(x))
+            # print(type(w))
             if int(np.sign(w.dot(x))) == 0:
                 if y != -1:
                     w = w + coeff * y * x
@@ -92,11 +93,11 @@ def PLA(n, data, coeff):
 
 # Q18: pocket algorithm iteration 50 repeat 2000 #
 error_rate = 0
-n = 2000
+n = 1
 
 for i in range(n):
     w_pocket = pocket_algor(50, traindata, 1)
-    error_rate += error(w_pocket, testdata)
+    error_rate += error(w_pocket, testdata)/testdata.size
     np.random.shuffle(traindata)  
 
 error_rate = error_rate/n
@@ -107,7 +108,7 @@ error_rate = 0
 
 for i in range(n):
     w_pocket = PLA(50, traindata, 1)
-    error_rate += error(w_pocket, testdata)
+    error_rate += error(w_pocket, testdata)/testdata.size
     np.random.shuffle(traindata) 
 
 error_rate = error_rate/n
