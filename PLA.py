@@ -1,6 +1,5 @@
 ## 2023/6/2 (Machine Learning Foundations)---Mathematical Foundations HW1
 ## Yu Hsuan Yun
-## work hard, be kind, and amazing things will happen <3
 
 from unittest import result
 import numpy as np
@@ -14,8 +13,6 @@ traindata_url = "https://www.csie.ntu.edu.tw/~htlin/mooc/datasets/mlfound_math/h
 train_data = requests.get(traindata_url)
 train_data.raise_for_status() # check http status
 train_data = np.loadtxt(io.BytesIO(train_data.content), encoding = 'bytes')
-# train_data = np.loadtxt("hw1_15_train.dat.txt", dtype = float)
-# print(train_data)
 
 
 def PLA(data, coeff):
@@ -72,7 +69,7 @@ start = time.process_time()
 print(PLA_fixed(train_data, 2000, 1))
 end = time.process_time()
 print("Q16 execute time = ", end - start)
-# ans: 39.8395, 40.4425
+# ans: 39.8395
 
 
 ## Q17 ##
@@ -81,4 +78,4 @@ start = time.time()
 print(PLA_fixed(train_data, 2000, 0.5))
 end = time.time()
 print("Q17 execute time = ", end - start)
-# ans: 40.0515, 39.999
+# ans: 40.0515
